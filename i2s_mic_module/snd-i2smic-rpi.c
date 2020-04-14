@@ -122,8 +122,9 @@ int i2s_mic_rpi_init(void)
   card_info = default_card_info;
   card_info.platform = card_platform;
   card_info.cpu_dai.name = card_platform;
+
   card_device = default_card_device;
-  card_device.cpu_dai.name = &card_info;
+  card_device.dev.platform_data = &card_info;
 
   // request DMA engine module
   ret = request_module(dmaengine);
