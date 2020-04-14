@@ -39,7 +39,8 @@
  * N.B. playback vs capture is determined by the codec choice
  * */
 
-void device_release_callback(struct device *dev) { /*  do nothing */ };
+static struct asoc_simple_card_info card_info;
+static struct platform_device card_device;
 
 /*
  * Setup command line parameter
@@ -49,9 +50,14 @@ module_param(rpi_platform_generation, short, 0);
 MODULE_PARM_DESC(rpi_platform_generation, "Raspberry Pi generation: 0=Pi0, 1=Pi2/3, 2=Pi4");
 
 /*
+ * Dummy callback for release
+ */
+void device_release_callback(struct device *dev) { /*  do nothing */ };
+
+/*
  * Setup the card info
  */
-static struct asoc_simple_card_info card_info = {
+static struct asoc_simple_card_info default_card_info = {
   .card = "snd_rpi_i2s_card",       // -> snd_soc_card.name
   .name = "simple-card_codec_link", // -> snd_soc_dai_link.name
   .codec = "snd-soc-dummy",         // "dmic-codec", // -> snd_soc_dai_link.codec_name
@@ -70,15 +76,16 @@ static struct asoc_simple_card_info card_info = {
 /*
  * Setup the card device
  */
-static struct platform_device card_device = {
+static struct platform_device default_card_device = {
   .name = "snd_rpi_i2s_card",   //module alias
   .id = 0,
   .num_resources = 0,
   .dev = {
     .release = &device_release_callback,
-    .platform_data = &card_info, // *HACK ALERT*
+    .platform_data = &default_card_info, // *HACK ALERT*
   },
 };
+
 
 
 /*
@@ -111,9 +118,12 @@ int i2s_mic_rpi_init(void)
 
   printk(KERN_INFO "snd-i2smic-rpi: Setting platform to %s\n", card_platform);
 
-  // update card info struct
+  // update info
+  card_info = default_card_info;
   card_info.platform = card_platform;
   card_info.cpu_dai.name = card_platform;
+  card_device = default_card_device;
+  card_device.cpu_dai.name = &card_info;
 
   // request DMA engine module
   ret = request_module(dmaengine);

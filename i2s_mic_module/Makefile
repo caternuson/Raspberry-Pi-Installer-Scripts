@@ -43,11 +43,11 @@ help:
 install: snd-i2smic-rpi.ko
 	rm -f ${MDIR}/kernel/sound/drivers/$(MOD_NAME).ko
 	install -m644 -b -D $(MOD_NAME).ko ${MDIR}/kernel/sound/drivers/$(MOD_NAME).ko
-	depmod -aq
+	depmod -a
 
 uninstall:
 	rm -rf ${MDIR}/kernel/sound/drivers/$(MOD_NAME).ko
-	depmod -aq
+	depmod -a
 
 endif
 
