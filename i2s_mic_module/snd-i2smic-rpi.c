@@ -121,7 +121,7 @@ int i2s_mic_rpi_init(void)
 
   // register the card device
   ret = platform_device_register(&card_device);
-  pr_alert("register platform device '%s': %d\n",snd_rpi_simple_card_device.name, ret);
+  pr_alert("register platform device '%s': %d\n",card_device.name, ret);
 
   return 0;
 }
