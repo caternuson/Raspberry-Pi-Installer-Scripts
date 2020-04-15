@@ -118,6 +118,10 @@ int i2s_mic_rpi_init(void)
 
   printk(KERN_INFO "snd-i2smic-rpi: Setting platform to %s\n", card_platform);
 
+  // request DMA engine module
+  ret = request_module(dmaengine);
+  pr_alert("request module load '%s': %d\n",dmaengine, ret);
+
   // update info
   card_info = default_card_info;
   card_info.platform = card_platform;
@@ -125,10 +129,6 @@ int i2s_mic_rpi_init(void)
 
   card_device = default_card_device;
   card_device.dev.platform_data = &card_info;
-
-  // request DMA engine module
-  ret = request_module(dmaengine);
-  pr_alert("request module load '%s': %d\n",dmaengine, ret);
 
   // register the card device
   ret = platform_device_register(&card_device);
