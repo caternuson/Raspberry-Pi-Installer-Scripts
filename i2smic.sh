@@ -77,11 +77,15 @@ echo
 echo "Installing..."
 
 # System update and install
-apt-get update
-apt-get install dkms raspberrypi-kernel-headers
+apt-get -y update
+apt-get -y upgrade
+apt-get -y install git dkms raspberrypi-kernel-headers
+
+# Clone the repo
+git clone https://github.com/adafruit/Raspberry-Pi-Installer-Scripts.git
 
 # Install and build module
-cd i2s_mic_module
+cd Raspberry-Pi-Installer-Scripts/i2s_mic_module
 cp -R . /usr/src/snd-i2smic-rpi-0.1.0
 dkms add -m snd-i2smic-rpi -v 0.1.0
 dkms build -m snd-i2smic-rpi -v 0.1.0
