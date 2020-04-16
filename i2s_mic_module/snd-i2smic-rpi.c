@@ -10,9 +10,8 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *        Pi4 Mod:  Carter Nelson
- *         Author:  Huan Truong (htruong@tnhh.net), originally written by Paul Creaser
- *   Organization:  Crankshaft (http://getcrankshaft.com)
+ *       Pi4 Mods:  Carter Nelson
+ *    Orig Author:  Huan Truong (htruong@tnhh.net), originally written by Paul Creaser
  *
  * =====================================================================================
  */
@@ -85,8 +84,6 @@ static struct platform_device default_card_device = {
     .platform_data = &default_card_info, // *HACK ALERT*
   },
 };
-
-
 
 /*
  * Callback for module initialization
